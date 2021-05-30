@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sample_flutter/utils/routes.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String name = "";
+  bool changeButton = false;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -21,7 +28,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text("Welcome",
+            Text("Welcome $name",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
             SizedBox(
               height: 20,
@@ -34,6 +41,11 @@ class LoginPage extends StatelessWidget {
                   TextFormField(
                     decoration: InputDecoration(
                         hintText: "Enter username", labelText: "Username"),
+                    onChanged: (value) {
+                      name = value;
+                      setState(
+                          () {}); // again call build method so ui will change
+                    },
                   ),
                   TextFormField(
                     obscureText: true,
@@ -43,13 +55,32 @@ class LoginPage extends StatelessWidget {
                   SizedBox(
                     height: 40,
                   ),
-                  ElevatedButton(
-                    child: Text("Login"),
-                    style: TextButton.styleFrom(minimumSize: Size(140, 40)),
-                    onPressed: () {
+                  InkWell(
+                    onTap: () async {
+                      setState(() {
+                        changeButton = true;
+                      });
+                      await Future.delayed(Duration(seconds: 1));
                       Navigator.pushNamed(context, MyRoutes.homeRoute);
                     },
-                  )
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      height: 50,
+                      width: changeButton ? 50 : 150,
+                      alignment: Alignment.center,
+                      child: changeButton
+                          ? Icon(Icons.done, color: Colors.white)
+                          : Text("Login",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              )),
+                      decoration: BoxDecoration(
+                          color: Colors.green,
+                          borderRadius:
+                              BorderRadius.circular(changeButton ? 50 : 7)),
+                    ),
+                  ),
                 ],
               ),
             )
