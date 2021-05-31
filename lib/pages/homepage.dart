@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample_flutter/widgets/drawer.dart';
 
 class Home extends StatelessWidget {
   final int sc = 40;
@@ -15,7 +16,7 @@ class Home extends StatelessWidget {
           child: Text("welcome $name and $sc and $py"),
         ),
       ),
-      drawer: Drawer(),
+      drawer: MyDrawer(),
     );
   }
 }
